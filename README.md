@@ -67,7 +67,7 @@ require('fs').writeFileSync('preview.html', emailBody, 'utf8');
 
 // `emailBody` now contains the HTML body,
 // and `emailText` contains the textual version.
-// 
+//
 // It's up to you to send the e-mail.
 // Check out nodemailer to accomplish this:
 // https://nodemailer.com/
@@ -138,6 +138,16 @@ var email = {
     body: {
         greeting: 'Dear',
         signature: 'Sincerely'
+    }
+};
+```
+
+To not include the signature at all, set the signature field to false:
+
+```js
+var email = {
+    body: {
+      signature: false,
     }
 };
 ```
@@ -262,6 +272,71 @@ var email = {
                 }
             }
         }
+    }
+};
+```
+
+To inject multiple tables into the e-mail, supply the `table` property with an array of objects as follows:
+
+```js
+var email = {
+    body: {
+        table: [
+            {
+                // Optionally, add a title to each table.
+                title: 'Order 1',
+                data: [
+                    {
+                        item: 'Item 1',
+                        description: 'Item 1 description',
+                        price: '$1.99'
+                    },
+                    {
+                        item: 'Item 2',
+                        description: 'Item 2 description',
+                        price: '$2.99'
+                    }
+                ],
+                columns: {
+                    // Optionally, customize the column widths
+                    customWidth: {
+                        item: '20%',
+                        price: '15%'
+                    },
+                    // Optionally, change column text alignment
+                    customAlignment: {
+                        price: 'right'
+                    }
+                }
+            },
+            {
+                // Optionally, add a title to each table.
+                title: 'Order 2',
+                data: [
+                    {
+                        item: 'Item 1',
+                        description: 'Item 1 description',
+                        price: '$2.99'
+                    },
+                    {
+                        item: 'Item 2',
+                        description: 'Item 2 description',
+                        price: '$1.99'
+                    }
+                ],
+                columns: {
+                    // Optionally, customize the column widths
+                    customWidth: {
+                        item: '20%',
+                        price: '15%'
+                    },
+                    // Optionally, change column text alignment
+                    customAlignment: {
+                        price: 'right'
+                    }
+                }
+            }
+        ]
     }
 };
 ```

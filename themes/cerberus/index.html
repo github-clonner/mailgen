@@ -266,36 +266,39 @@ if (locals.action) {
 
                                     <!-- Table -->
                                     <% if (locals.table) { %>
-                                    <br />
-                                    <table class="data-table" width="100%" cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <% for (var column in table.data[0]) {%>
-                                            <th
-                                                <% if(locals.table.columns && locals.table.columns.customWidth && locals.table.columns.customWidth[column]) { %>
-                                                    width="<%= table.columns.customWidth[column] %>"
+                                        <% table.forEach(function (tableItem, i) { -%>
+                                            <br />
+                                            <h3><%- tableItem.title %></h3>
+                                            <table class="data-table" width="100%" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <% for (var column in tableItem.data[0]) {%>
+                                                    <th
+                                                        <% if(tableItem.columns && tableItem.columns.customWidth && tableItem.columns.customWidth[column]) { %>
+                                                            width="<%= tableItem.columns.customWidth[column] %>"
+                                                        <% } %>
+                                                        <% if(tableItem.columns && tableItem.columns.customAlignment && tableItem.columns.customAlignment[column]) { %>
+                                                            style="text-align:<%= tableItem.columns.customAlignment[column] %>"
+                                                        <% } %>
+                                                    >
+                                                        <p><%- column.charAt(0).toUpperCase() + column.slice(1) %></p>
+                                                    </th>
+                                                    <% } %>
+                                                </tr>
+                                                <% for (var i in tableItem.data) {%>
+                                                <tr>
+                                                    <% for (var column in tableItem.data[i]) {%>
+                                                    <td
+                                                        <% if(tableItem.columns && tableItem.columns.customAlignment && tableItem.columns.customAlignment[column]) { %>
+                                                            style="text-align:<%= tableItem.columns.customAlignment[column] %>"
+                                                        <% } %>
+                                                    >
+                                                        <%- tableItem.data[i][column] %>
+                                                    </td>
+                                                    <% } %>
+                                                </tr>
                                                 <% } %>
-                                                <% if(locals.table.columns && locals.table.columns.customAlignment && locals.table.columns.customAlignment[column]) { %>
-                                                    style="text-align:<%= table.columns.customAlignment[column] %>"
-                                                <% } %>
-                                            >
-                                                <p><%- column.charAt(0).toUpperCase() + column.slice(1) %></p>
-                                            </th>
-                                            <% } %>
-                                        </tr>
-                                        <% for (var i in table.data) {%>
-                                        <tr>
-                                            <% for (var column in table.data[i]) {%>
-                                            <td
-                                                <% if(locals.table.columns && locals.table.columns.customAlignment && locals.table.columns.customAlignment[column]) { %>
-                                                    style="text-align:<%= table.columns.customAlignment[column] %>"
-                                                <% } %>
-                                            >
-                                                <%- table.data[i][column] %>
-                                            </td>
-                                            <% } %>
-                                        </tr>
-                                        <% } %>
-                                    </table>
+                                            </table>
+                                        <% }) %>
                                     <% } %>
                                 </td>
                             </tr>
@@ -359,13 +362,15 @@ if (locals.action) {
                                     <% } %>
                                 </td>
                             </tr>
-                            <tr>
-	                            <td style="text-align: center; padding: 0 40px 40px 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
-	                                <%- signature %>,
-                                    <br />
-                                    <%- product.name %>
-                                </td>
-                            </tr>
+                            <% if (signature) { %>
+                              <tr>
+  	                            <td style="text-align: center; padding: 0 40px 40px 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
+  	                                <%- signature %>,
+                                      <br />
+                                      <%- product.name %>
+                                  </td>
+                              </tr>
+                            <% } %>
                         </table>
                     </td>
                 </tr>
